@@ -11,6 +11,10 @@ namespace Module2HW2.Repositories
     {
         private Cart[] _data;
 
+        public CartRepository()
+        {
+            _data = new Cart[0];
+        }
         public void Save(Cart cart)
         {
             for (int i = 0; i < _data.Length; i++)
@@ -18,9 +22,11 @@ namespace Module2HW2.Repositories
                 if (_data[i].Id == cart.Id)
                 {
                     _data[i] = cart;
-                    break;
+                    return;
                 }
             }
+
+            ResizeData(cart, cart.Id);
         }
 
         public Cart Get(int id)
@@ -33,7 +39,24 @@ namespace Module2HW2.Repositories
                 }
             }
 
-            return null;
+            ResizeData(null, id);
+
+            return _data[_data.Length - 1];
+        }
+
+        private void ResizeData(Cart cart, int id)
+        {
+            var items = new Cart[_data.Length + 1];
+            Array.Copy(_data, items, _data.Length);
+            if (cart == null)
+            {
+                items[items.Length - 1] = new Cart { Id = id, Items = new Product[0] };
+            }
+            else
+            {
+                items[_data.Length - 1] = cart;
+            }
+            _data = items;
         }
     }
 }

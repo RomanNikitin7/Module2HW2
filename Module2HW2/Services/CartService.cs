@@ -16,16 +16,18 @@ namespace Module2HW2.Services
             _repository = repository;
         }
 
-        public void Add(int cartId, Product product)
+        public Cart AddProduct(int cartId, Product product)
         {
             var cart = _repository.Get(cartId);
             var items = new Product[cart.Items.Length + 1];
             Array.Copy(cart.Items, items, cart.Items.Length);
-            items[cart.Items.Length - 1] = product;
+            items[items.Length - 1] = product;
             cart.Items = items;
             cart.TotalPrice += product.Price;
 
             _repository.Save(cart);
+
+            return cart;
         }
     }
 }
