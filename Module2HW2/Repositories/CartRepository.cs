@@ -28,7 +28,6 @@ namespace Module2HW2.Repositories
 
             ResizeData(cart, cart.Id);
         }
-
         public Cart Get(int id)
         {
             for (int i = 0; i < _data.Length; i++)
